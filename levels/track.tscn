@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://6uefkqn1f45g"]
+[gd_scene load_steps=9 format=3 uid="uid://bsycdvj3i3uih"]
 
+[ext_resource type="PackedScene" uid="uid://b3mi6w6egox4h" path="res://Ship/Ship.tscn" id="1_iqge5"]
 [ext_resource type="Texture2D" uid="uid://bo4yj4htpbte4" path="res://Blender/textures/Apex_Airfoil_front_UV_08_05_2017.png" id="1_tc7m2"]
-[ext_resource type="PackedScene" uid="uid://55evao88d6yu" path="res://racer.tscn" id="2_x4vlr"]
-[ext_resource type="PackedScene" uid="uid://dc4yekfdowfhs" path="res://vehiclebody.tscn" id="3_516n8"]
+[ext_resource type="PackedScene" uid="uid://byyqygdbshkxi" path="res://racer.tscn" id="2_x4vlr"]
+[ext_resource type="PackedScene" path="res://vehiclebody.tscn" id="3_516n8"]
 
 [sub_resource type="Curve3D" id="Curve3D_ortey"]
 _data = {
@@ -18,8 +19,8 @@ albedo_texture = ExtResource("1_tc7m2")
 albedo_color = Color(0.839216, 0.913725, 0.937255, 1)
 metallic = 0.5
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mrv14"]
-albedo_texture = ExtResource("1_tc7m2")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_etuxq"]
+albedo_color = Color(0.309804, 0.52549, 0.337255, 1)
 
 [node name="Node3D" type="Node3D"]
 
@@ -50,13 +51,17 @@ light_color = Color(0.996078, 0.780392, 0.537255, 1)
 light_energy = 1.2
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-material_override = SubResource("StandardMaterial3D_mrv14")
 use_collision = true
 size = Vector3(1000, 1, 1000)
+material = SubResource("StandardMaterial3D_etuxq")
 
 [node name="VehicleBody3D" parent="." instance=ExtResource("3_516n8")]
 transform = Transform3D(-0.700598, 0, 0.713556, 0, 1, 0, -0.713556, 0, -0.700598, 77.131, 84.67, -50.96)
+visible = false
 steering = 0.0
 
 [node name="Racer" parent="VehicleBody3D" instance=ExtResource("2_x4vlr")]
 transform = Transform3D(-1, 0, 8.9407e-08, 0, 1, 0, -8.9407e-08, 0, -1, 0, 1, 0)
+
+[node name="Ship" parent="." instance=ExtResource("1_iqge5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.975, 85.0859, -20.7077)
