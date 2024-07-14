@@ -1,0 +1,104 @@
+[gd_scene load_steps=6 format=3 uid="uid://dl82cvjo235t3"]
+
+[ext_resource type="AudioStream" uid="uid://gh2b756mpqbx" path="res://audio/sfx/engine/engine_a.wav" id="1_1merd"]
+[ext_resource type="Script" path="res://audio/sfx/AudioStreamPlayer3D.gd" id="2_8muvm"]
+[ext_resource type="AudioStream" uid="uid://wpkcrl16uujh" path="res://audio/sfx/engine/engine_b.wav" id="3_adrai"]
+[ext_resource type="AudioStream" uid="uid://djte806d2ebib" path="res://audio/sfx/engine/rocket.wav" id="4_7uxla"]
+[ext_resource type="AudioStream" uid="uid://biupdsxlsl3k4" path="res://audio/music/race_theme.wav" id="5_cnhyw"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="EngineIdle" type="AudioStreamPlayer3D" parent="Camera3D"]
+stream = ExtResource("1_1merd")
+autoplay = true
+max_distance = 5.0
+script = ExtResource("2_8muvm")
+
+[node name="EngineThrottle" type="AudioStreamPlayer3D" parent="Camera3D"]
+stream = ExtResource("3_adrai")
+script = ExtResource("2_8muvm")
+
+[node name="RocketEngine" type="AudioStreamPlayer3D" parent="Camera3D"]
+stream = ExtResource("4_7uxla")
+autoplay = true
+max_distance = 5.0
+script = ExtResource("2_8muvm")
+
+[node name="music" type="AudioStreamPlayer3D" parent="Camera3D"]
+stream = ExtResource("5_cnhyw")
+autoplay = true
+max_distance = 5.0
+
+[node name="HSlider" type="HSlider" parent="."]
+unique_name_in_owner = true
+offset_left = 368.0
+offset_top = 247.0
+offset_right = 567.0
+offset_bottom = 272.0
+value = 50.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 408.0
+offset_top = 209.0
+offset_right = 448.0
+offset_bottom = 232.0
+text = "pitch
+
+"
+
+[node name="ButtonA" type="Button" parent="."]
+offset_left = 188.0
+offset_top = 385.0
+offset_right = 196.0
+offset_bottom = 393.0
+scale = Vector2(7.99794, 13.0631)
+
+[node name="Label" type="Label" parent="ButtonA"]
+layout_mode = 0
+offset_left = -1.12529
+offset_top = -4.43998
+offset_right = 38.8747
+offset_bottom = 18.56
+scale = Vector2(0.266244, 0.160998)
+text = "A
+
+"
+
+[node name="ButtonB" type="Button" parent="."]
+offset_left = 386.0
+offset_top = 390.0
+offset_right = 394.0
+offset_bottom = 398.0
+scale = Vector2(7.99794, 13.0631)
+
+[node name="Label2" type="Label" parent="ButtonB"]
+layout_mode = 0
+offset_left = -1.12527
+offset_top = -4.66964
+offset_right = 38.8747
+offset_bottom = 18.3304
+scale = Vector2(0.266244, 0.160998)
+text = "B"
+
+[node name="ButtonRocket" type="Button" parent="."]
+offset_left = 537.0
+offset_top = 388.0
+offset_right = 545.0
+offset_bottom = 396.0
+scale = Vector2(7.99794, 13.0631)
+
+[node name="Label" type="Label" parent="ButtonRocket"]
+layout_mode = 0
+offset_left = -1.12529
+offset_top = -4.43998
+offset_right = 38.8747
+offset_bottom = 18.56
+scale = Vector2(0.266244, 0.160998)
+text = "rocket
+"
+
+[connection signal="pressed" from="ButtonA" to="Camera3D/EngineIdle" method="_on_button_idle_pressed"]
+[connection signal="pressed" from="ButtonB" to="Camera3D/EngineThrottle" method="_on_button_accel_pressed"]
+[connection signal="pressed" from="ButtonRocket" to="Camera3D/RocketEngine" method="_on_button_rocket_pressed"]
