@@ -4,22 +4,22 @@
 [ext_resource type="PackedScene" uid="uid://dsllsg5gb86um" path="res://Ship/ship01.glb" id="1_hsir8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3o6rp"]
-radius = 0.681
-height = 11.168
+radius = 0.366
+height = 3.428
 
 [node name="Ship" type="CharacterBody3D"]
 script = ExtResource("1_7kbbf")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.989629, 0.143648, 0, -0.143648, 0.989629, 0, 1.39951, 2.38583)
+transform = Transform3D(1, 0, 0, 0, 0.989629, 0.143648, 0, -0.143648, 0.989629, -0.0250415, 0.553912, 0.735385)
 fov = 95.8
 
 [node name="ship01" parent="." instance=ExtResource("1_hsir8")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 2.27791, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.929444, 0, 0)
 shape = SubResource("CapsuleShape3D_3o6rp")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -2.19932, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.988812, 0, 0)
 shape = SubResource("CapsuleShape3D_3o6rp")
