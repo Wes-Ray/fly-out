@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="fly-out"
-run/main_scene="res://levels/track.tscn"
+run/main_scene="res://levels/wes_test.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
