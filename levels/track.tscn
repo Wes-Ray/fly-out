@@ -1,7 +1,5 @@
-[gd_scene load_steps=8 format=3 uid="uid://bsycdvj3i3uih"]
+[gd_scene load_steps=7 format=3 uid="uid://bsycdvj3i3uih"]
 
-[ext_resource type="Texture2D" uid="uid://bo4yj4htpbte4" path="res://Blender/textures/Apex_Airfoil_front_UV_08_05_2017.png" id="1_tc7m2"]
-[ext_resource type="PackedScene" uid="uid://byyqygdbshkxi" path="res://racer.tscn" id="2_x4vlr"]
 [ext_resource type="PackedScene" uid="uid://dc4yekfdowfhs" path="res://vehiclebody.tscn" id="3_516n8"]
 
 [sub_resource type="Curve3D" id="Curve3D_ortey"]
@@ -11,15 +9,18 @@ _data = {
 }
 point_count = 38
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vguo8"]
+load_path = "res://.godot/imported/Apex_Airfoil_front_UV_08_05_2017.png-2402cfca5f198f4b7996a80736c5427c.s3tc.ctex"
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dt5xw"]
-albedo_texture = ExtResource("1_tc7m2")
+albedo_texture = SubResource("CompressedTexture2D_vguo8")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7g1p"]
 albedo_color = Color(0.839216, 0.913725, 0.937255, 1)
 metallic = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mrv14"]
-albedo_texture = ExtResource("1_tc7m2")
+albedo_texture = SubResource("CompressedTexture2D_vguo8")
 
 [node name="Node3D" type="Node3D"]
 
@@ -57,6 +58,5 @@ size = Vector3(1000, 1, 1000)
 [node name="VehicleBody3D" parent="." instance=ExtResource("3_516n8")]
 transform = Transform3D(-0.700598, 0, 0.713556, 0, 1, 0, -0.713556, 0, -0.700598, 77.1555, 84.886, -50.999)
 steering = 0.0
-
-[node name="Racer" parent="VehicleBody3D" instance=ExtResource("2_x4vlr")]
-transform = Transform3D(-1, 0, 8.9407e-08, 0, 1, 0, -8.9407e-08, 0, -1, 0, 1, 0)
+MAX_STEER = null
+ENGINE_POWER = null
