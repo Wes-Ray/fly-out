@@ -1,6 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://6uefkqn1f45g"]
+[gd_scene load_steps=8 format=3 uid="uid://6uefkqn1f45g"]
 
-[ext_resource type="Script" path="res://VehicleBody3D.gd" id="1_du4kt"]
+[ext_resource type="Texture2D" uid="uid://bo4yj4htpbte4" path="res://Blender/textures/Apex_Airfoil_front_UV_08_05_2017.png" id="1_tc7m2"]
+[ext_resource type="PackedScene" uid="uid://55evao88d6yu" path="res://racer.tscn" id="2_x4vlr"]
+[ext_resource type="PackedScene" uid="uid://dc4yekfdowfhs" path="res://vehiclebody.tscn" id="3_516n8"]
 
 [sub_resource type="Curve3D" id="Curve3D_ortey"]
 _data = {
@@ -9,25 +11,15 @@ _data = {
 }
 point_count = 38
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dt5xw"]
+albedo_texture = ExtResource("1_tc7m2")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7g1p"]
 albedo_color = Color(0.839216, 0.913725, 0.937255, 1)
 metallic = 0.5
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_r0qcw"]
-size = Vector3(2, 3, 0.5)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s16ra"]
-albedo_color = Color(1, 0.588235, 0.223529, 1)
-metallic = 0.59
-metallic_specular = 0.39
-roughness = 0.34
-
-[sub_resource type="PrismMesh" id="PrismMesh_2dsxy"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wir2t"]
-albedo_color = Color(0.345098, 0.345098, 0.345098, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_hhnnc"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mrv14"]
+albedo_texture = ExtResource("1_tc7m2")
 
 [node name="Node3D" type="Node3D"]
 
@@ -37,6 +29,7 @@ curve = SubResource("Curve3D_ortey")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00319588, 0)
+material_override = SubResource("StandardMaterial3D_dt5xw")
 use_collision = true
 polygon = PackedVector2Array(-1.4, 0.4, -1, 0, 1, 0, 1.4, 0.4, 1.1, -0.1, -1.1, -0.1)
 mode = 2
@@ -51,82 +44,19 @@ path_u_distance = 1.0
 path_joined = true
 material = SubResource("StandardMaterial3D_l7g1p")
 
-[node name="VehicleBody3D" type="VehicleBody3D" parent="."]
-transform = Transform3D(-0.699114, 0, 0.71501, 0, 1, 0, -0.71501, 0, -0.699114, 104.15, 88.0869, -76.9564)
-script = ExtResource("1_du4kt")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="VehicleBody3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.35, 0.5)
-shape = SubResource("BoxShape3D_r0qcw")
-
-[node name="Camera3D" type="Camera3D" parent="VehicleBody3D"]
-transform = Transform3D(0.999848, 0.00152108, -0.017386, 0, 0.996195, 0.0871557, 0.0174524, -0.0871425, 0.996043, -0.3, 2.5, 5)
-current = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D"]
-transform = Transform3D(2, 0, 0, 0, -1.5299e-07, 0.7, 0, -3.5, -3.0598e-08, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_s16ra")
-mesh = SubResource("PrismMesh_2dsxy")
-
-[node name="FrontLeftWheel" type="VehicleWheel3D" parent="VehicleBody3D"]
-transform = Transform3D(-1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, -1.3, 0, -0.999992)
-use_as_traction = true
-use_as_steering = true
-wheel_radius = 0.8
-wheel_friction_slip = 1.0
-suspension_stiffness = 8.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D/FrontLeftWheel"]
-transform = Transform3D(-4.37114e-08, -0.1, 0, 1, -4.37114e-09, 0, 0, 0, 1, 0, 0, 0)
-visible = false
-material_override = SubResource("StandardMaterial3D_wir2t")
-mesh = SubResource("CylinderMesh_hhnnc")
-
-[node name="FrontRightWheel" type="VehicleWheel3D" parent="VehicleBody3D"]
-transform = Transform3D(-1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, 1.3, 0, -1)
-use_as_traction = true
-use_as_steering = true
-wheel_radius = 0.8
-wheel_friction_slip = 1.0
-suspension_stiffness = 8.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D/FrontRightWheel"]
-transform = Transform3D(-4.37114e-08, -0.1, 0, 1, -4.37114e-09, 0, 0, 0, 1, 0, 0, 0)
-visible = false
-material_override = SubResource("StandardMaterial3D_wir2t")
-mesh = SubResource("CylinderMesh_hhnnc")
-
-[node name="LeftWheel" type="VehicleWheel3D" parent="VehicleBody3D"]
-transform = Transform3D(-1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, -1.6, 0, 1.5)
-use_as_traction = true
-wheel_radius = 0.8
-wheel_friction_slip = 1.0
-suspension_stiffness = 8.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D/LeftWheel"]
-transform = Transform3D(-4.37114e-08, -0.1, 0, 1, -4.37114e-09, 0, 0, 0, 1, 0, 0, 0)
-visible = false
-material_override = SubResource("StandardMaterial3D_wir2t")
-mesh = SubResource("CylinderMesh_hhnnc")
-
-[node name="RightWheel" type="VehicleWheel3D" parent="VehicleBody3D"]
-transform = Transform3D(-1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, 1.6, 0, 1.5)
-use_as_traction = true
-wheel_radius = 0.8
-wheel_friction_slip = 1.0
-suspension_stiffness = 8.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D/RightWheel"]
-transform = Transform3D(-4.37114e-08, -0.1, 0, 1, -4.37114e-09, 0, 0, 0, 1, 0, 0, 0)
-visible = false
-material_override = SubResource("StandardMaterial3D_wir2t")
-mesh = SubResource("CylinderMesh_hhnnc")
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 20, 0)
 light_color = Color(0.996078, 0.780392, 0.537255, 1)
-light_energy = 3.0
+light_energy = 1.2
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
+material_override = SubResource("StandardMaterial3D_mrv14")
 use_collision = true
 size = Vector3(1000, 1, 1000)
+
+[node name="VehicleBody3D" parent="." instance=ExtResource("3_516n8")]
+transform = Transform3D(-0.700598, 0, 0.713556, 0, 1, 0, -0.713556, 0, -0.700598, 77.131, 84.67, -50.96)
+steering = 0.0
+
+[node name="Racer" parent="VehicleBody3D" instance=ExtResource("2_x4vlr")]
+transform = Transform3D(-1, 0, 8.9407e-08, 0, 1, 0, -8.9407e-08, 0, -1, 0, 1, 0)

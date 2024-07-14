@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://55evao88d6yu"]
+
+[ext_resource type="PackedScene" uid="uid://lxc8s7ti2if8" path="res://Blender/Apex.blend" id="1_vyxov"]
+
+[node name="Racer" instance=ExtResource("1_vyxov")]
+
+[node name="CollisionShape3D" parent="Engine block/StaticBody3D" index="0"]
+visible = false
+disabled = true
+
+[node name="CollisionShape3D" parent="Airframe front/StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0129433, 7.15256e-07, 0.00473642)
+visible = false
+disabled = true
