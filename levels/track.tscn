@@ -48,5 +48,5 @@ use_collision = true
 size = Vector3(1000, 1, 1000)
 material = SubResource("StandardMaterial3D_1484d")
 
-[node name="Ship" parent="." instance=ExtResource("1_iqge5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.06499, 2.61096, 4.21274)
+[node name="Ship2" parent="." instance=ExtResource("1_iqge5")]
+transform = Transform3D(-0.124788, 0, -0.115446, 0, 0.17, 0, 0.115446, 0, -0.124788, 22.8524, 86.3665, 42.168)

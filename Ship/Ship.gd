@@ -1,10 +1,10 @@
 extends CharacterBody3D
 
-# # Draft Keyboard Controls
-# # Throttle/Brake: W and S
-# # Yaw: A and D 
-# # Roll: left and right arrow
-# # Pitch: up and down down arrow
+# Draft Controls
+# Throttle/Brake: Triggers or W and S
+# Yaw: Left Joystick or A and D 
+# Roll: Right Joystick or left and right arrow
+# Pitch: Right Joystick or up and down down arrow
 
 @export var speed : float = 100
 @export var yaw_speed : float = 4
@@ -35,9 +35,9 @@ func move_ship(delta : float) -> void:
 	# Translate forward/back
 	throttle = Input.get_axis("brake", "gas")
 
-	rotate(basis.z, rotate_input.z * roll_speed * delta)
-	rotate(basis.x, rotate_input.x * pitch_speed * delta)
-	rotate(basis.y, rotate_input.y * yaw_speed * delta)
+	rotate(basis.z.normalized(), rotate_input.z * roll_speed * delta)
+	rotate(basis.x.normalized(), rotate_input.x * pitch_speed * delta)
+	rotate(basis.y.normalized(), rotate_input.y * yaw_speed * delta)
 
 	velocity = -basis.z * throttle * speed
 	move_and_slide()
