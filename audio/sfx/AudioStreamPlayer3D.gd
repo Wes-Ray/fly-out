@@ -9,9 +9,9 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 
-	var val = h_slider.value / 50
+	var val := h_slider.value / 50
 
 	pitch_scale = val
 
