@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3mi6w6egox4h"]
+[gd_scene load_steps=6 format=3 uid="uid://b3mi6w6egox4h"]
 
 [ext_resource type="Script" path="res://Ship/Ship.gd" id="1_7kbbf"]
 [ext_resource type="PackedScene" uid="uid://dsllsg5gb86um" path="res://Ship/ship01.glb" id="1_hsir8"]
+[ext_resource type="PackedScene" uid="uid://bvx28caw0wlv2" path="res://assets/ship/ship_guest.blend" id="2_mwrew"]
+[ext_resource type="Script" path="res://assets/ship/ship_effects.cs" id="3_berch"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3o6rp"]
 radius = 0.366
@@ -11,10 +13,17 @@ height = 3.428
 script = ExtResource("1_7kbbf")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.989629, 0.143648, 0, -0.143648, 0.989629, -0.0250415, 0.553912, 0.735385)
-fov = 95.8
+transform = Transform3D(1, -3.99136e-16, 3.45134e-16, 3.45134e-16, 0.989526, 0.144356, -3.99136e-16, -0.144356, 0.989526, 2.08165e-12, -0.468463, -2.56448)
+fov = 55.0
+
+[node name="ship_guest" parent="." node_paths=PackedStringArray("cam") instance=ExtResource("2_mwrew")]
+transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, 0, 0, 2.15113)
+script = ExtResource("3_berch")
+cam = NodePath("../Camera3D")
+min_FOV = 60.0
 
 [node name="ship01" parent="." instance=ExtResource("1_hsir8")]
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.929444, 0, 0)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnduy84uwr4ih"]
+[gd_scene load_steps=5 format=3 uid="uid://kp6871xfx7w2"]
 
 [sub_resource type="Curve3D" id="Curve3D_ortey"]
 _data = {
@@ -8,7 +8,6 @@ _data = {
 point_count = 38
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vguo8"]
-load_path = "res://.godot/imported/Apex_Airfoil_front_UV_08_05_2017.png-2402cfca5f198f4b7996a80736c5427c.s3tc.ctex"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dt5xw"]
 albedo_texture = SubResource("CompressedTexture2D_vguo8")

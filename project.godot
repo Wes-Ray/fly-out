@@ -11,17 +11,23 @@ config_version=5
 [application]
 
 config/name="fly-out"
-run/main_scene="res://levels/wes_test.tscn"
-config/features=PackedStringArray("4.2", "Forward Plus")
+run/main_scene="res://levels/wes_test_guest.tscn"
+config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [debug]
 
 gdscript/warnings/untyped_declaration=2
 
-[filesystem]
+[display]
 
-import/blender/enabled=false
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/scale=1.77
+
+[dotnet]
+
+project/assembly_name="fly-out"
 
 [input]
 

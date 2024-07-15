@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://nh4vnrkjrxti"]
+[gd_scene load_steps=4 format=3 uid="uid://dmj1hogox8lsk"]
 
 [ext_resource type="PackedScene" uid="uid://b3mi6w6egox4h" path="res://Ship/Ship.tscn" id="1_tdhxj"]
 [ext_resource type="PackedScene" path="res://levels/wesphysics_track.tscn" id="2_jrjx1"]
