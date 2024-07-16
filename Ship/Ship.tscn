@@ -23,3 +23,22 @@ shape = SubResource("CapsuleShape3D_3o6rp")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.988812, 0, 0)
 shape = SubResource("CapsuleShape3D_3o6rp")
+
+[node name="cast_center" type="RayCast3D" parent="."]
+target_position = Vector3(0, -5, 0)
+
+[node name="cast_front" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+target_position = Vector3(0, -5, 0)
+
+[node name="cast_rear" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+target_position = Vector3(0, -5, 0)
+
+[node name="cast_left" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+target_position = Vector3(0, -5, 0)
+
+[node name="cast_right" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+target_position = Vector3(0, -5, 0)
