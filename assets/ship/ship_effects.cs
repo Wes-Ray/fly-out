@@ -3,8 +3,7 @@ using System;
 
 public partial class ship_effects : Node
 {	
-	[Export] 
-	public Camera3D cam = null;
+	
 	[Export] 
 	public float min_FOV = 55.0f;
 	[Export] 
@@ -13,12 +12,17 @@ public partial class ship_effects : Node
 	public float min_effect_speed = 0.0f;
 	[Export]
 	public float max_effect_speed = 90.0f;
+	[Export]
+	public float maxSpeedScale = 8.0f;
 	public float effect_rate = 2.0f;
+	
+	// No longer [Export] public, just look for it in _Ready()
+	private Camera3D cam = null;
 	private float current_FOV = 75.0f;
 	private AnimationPlayer _animator;
 	private float speedScale = 1.0f;
 	private float minSpeedScale = 0.2f;
-	private float maxSpeedScale = 10.0f;
+	//4private float maxSpeedScale = 10.0f;
 	private float speed = 1.0f;
 	// For tracking speed, instead of using inputs:
 	// TODO: make this ^^ globally availabl, since there are likely a number of things that could depend on it.
@@ -36,6 +40,7 @@ public partial class ship_effects : Node
 	{
 		_animator = ((AnimationPlayer) GetNode("AnimationPlayer"));
 		_animator.Play("shake_ship");
+		cam = GetNode<Camera3D>("../Camera3D");
 		if(cam != null){
 			cam.Fov = current_FOV;
 		}
@@ -72,7 +77,7 @@ public partial class ship_effects : Node
 			average_speed += speed;
 		}
 		average_speed /= prev_speeds.Length;
-		GD.Print(average_speed);
+		// GD.Print(average_speed);
 		float by = average_speed/max_effect_speed;  // The Godot docs use the word "by"
 		speedScale = Mathf.Lerp(minSpeedScale, maxSpeedScale, by);
 		current_FOV = Mathf.Lerp(max_FOV, min_FOV, by);
@@ -84,8 +89,8 @@ public partial class ship_effects : Node
 		_animator.SpeedScale = speedScale;
 		if(cam != null){
 			cam.Fov = current_FOV;
+			//GD.Print("FOV set to: " + cam.Fov);
 		}
-		
 		// Lastly, update pos_last_frame:
 		index += 1;
 		index %= prev_speeds.Length;
