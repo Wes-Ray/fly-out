@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://4ayl1q75x27y"]
+
+[ext_resource type="PackedScene" uid="uid://cnduy84uwr4ih" path="res://levels/full_track.tscn" id="1_bvuls"]
+[ext_resource type="PackedScene" uid="uid://b3mi6w6egox4h" path="res://Ship/Ship.tscn" id="2_c2xtl"]
+[ext_resource type="Texture2D" uid="uid://cbt3f56ene1c0" path="res://environment/coast_rocks.jpg" id="3_j4f7o"]
+[ext_resource type="Texture2D" uid="uid://bkxiyymkm26m6" path="res://environment/coast_rocks_normal.jpg" id="4_hhh1h"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_adgx1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hcwyf"]
+albedo_texture = ExtResource("3_j4f7o")
+normal_enabled = true
+normal_texture = ExtResource("4_hhh1h")
+uv1_scale = Vector3(256, 256, 256)
+
+[node name="BrianTest" type="Node3D"]
+
+[node name="full_track" parent="." instance=ExtResource("1_bvuls")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 34.6926, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.177085, -0.336615, 0.924841, 0, 0.939693, 0.34202, -0.984196, 0.0605666, -0.166405, 0, 50, 0)
+light_color = Color(0.886275, 0.760784, 0.54902, 1)
+shadow_enabled = true
+
+[node name="Ship" parent="." instance=ExtResource("2_c2xtl")]
+transform = Transform3D(-0.225529, 0, -0.974236, 0, 1, 0, 0.974236, 0, -0.225529, 6.78097, 121.774, 13.4723)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.60992, 0)
+mesh = SubResource("CapsuleMesh_adgx1")
+
+[node name="ground" type="CSGBox3D" parent="."]
+size = Vector3(2048, 1, 2048)
+material = SubResource("StandardMaterial3D_hcwyf")

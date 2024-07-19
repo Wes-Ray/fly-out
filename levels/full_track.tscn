@@ -1,4 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnduy84uwr4ih"]
+[gd_scene load_steps=3 format=3 uid="uid://cnduy84uwr4ih"]
+
+[ext_resource type="PackedScene" uid="uid://dnw5ilawv3gd4" path="res://levels/track_csg.tscn" id="1_oy4pd"]
 
 [sub_resource type="Curve3D" id="Curve3D_ortey"]
 _data = {
@@ -7,35 +9,10 @@ _data = {
 }
 point_count = 38
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vguo8"]
-load_path = "res://.godot/imported/Apex_Airfoil_front_UV_08_05_2017.png-2402cfca5f198f4b7996a80736c5427c.s3tc.ctex"
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dt5xw"]
-albedo_texture = SubResource("CompressedTexture2D_vguo8")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7g1p"]
-albedo_color = Color(0.839216, 0.913725, 0.937255, 1)
-metallic = 0.5
-
 [node name="full_track" type="Node3D"]
 
 [node name="Path3D" type="Path3D" parent="."]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 80, 0)
 curve = SubResource("Curve3D_ortey")
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00319588, 0)
-material_override = SubResource("StandardMaterial3D_dt5xw")
-use_collision = true
-polygon = PackedVector2Array(-1.4, 0.4, -1, 0, 1, 0, 1.4, 0.4, 1.1, -0.1, -1.1, -0.1)
-mode = 2
+[node name="track_csg" parent="." instance=ExtResource("1_oy4pd")]
 path_node = NodePath("../Path3D")
-path_interval_type = 0
-path_interval = 0.3
-path_simplify_angle = 0.3
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = true
-material = SubResource("StandardMaterial3D_l7g1p")
