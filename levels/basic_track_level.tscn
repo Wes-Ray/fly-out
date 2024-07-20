@@ -66,9 +66,6 @@ mesh = SubResource("CapsuleMesh_adgx1")
 size = Vector3(2048, 1, 2048)
 material = SubResource("StandardMaterial3D_hcwyf")
 
-[node name="Ship" parent="." instance=ExtResource("2_c2xtl")]
-transform = Transform3D(-0.016737, 0, -0.99986, 0, 1, 0, 0.99986, 0, -0.016737, -770.806, 333.348, 424.629)
-
 [node name="track_mesh" parent="." instance=ExtResource("1_myykx")]
 
 [node name="track_floor" parent="track_mesh" index="0"]
@@ -148,6 +145,9 @@ path_joined = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gbk1l")
+
+[node name="Ship" parent="." instance=ExtResource("2_c2xtl")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -682.821, 73.5648, 423.512)
 
 [editable path="track_mesh"]
 [editable path="track_mesh2"]

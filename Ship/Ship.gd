@@ -13,6 +13,10 @@ extends CharacterBody3D
 @onready var cast_left: = $cast_left
 @onready var cast_right: = $cast_right
 
+@onready var bumper_front_left: = $bumper_front_left
+@onready var bumper_front_right: = $bumper_front_right
+
+
 # TODO: clean up unused variables
 @export var air_acceleration: float = 10
 @export var air_decceleration: float = 10
@@ -279,6 +283,8 @@ func move_ship(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	HUD.debug("forward", -basis.z)
+
+	HUD.debug("bumper_front_left", bumper_front_left.is_colliding())
 
 	# TODO: move to global/menu
 	if Input.is_action_just_released("ui_cancel"): get_tree().quit()

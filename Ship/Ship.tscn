@@ -3,9 +3,8 @@
 [ext_resource type="Script" path="res://Ship/Ship.gd" id="1_7kbbf"]
 [ext_resource type="PackedScene" uid="uid://dsllsg5gb86um" path="res://Ship/ship01.glb" id="1_hsir8"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3o6rp"]
-radius = 0.366
-height = 3.428
+[sub_resource type="BoxShape3D" id="BoxShape3D_vhc3i"]
+size = Vector3(1.79651, 0.668518, 2.54871)
 
 [node name="Ship" type="CharacterBody3D"]
 script = ExtResource("1_7kbbf")
@@ -15,14 +14,6 @@ transform = Transform3D(1, 0, 0, 0, 0.989629, 0.143648, 0, -0.143648, 0.989629, 
 fov = 95.8
 
 [node name="ship01" parent="." instance=ExtResource("1_hsir8")]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.929444, 0, 0)
-shape = SubResource("CapsuleShape3D_3o6rp")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.988812, 0, 0)
-shape = SubResource("CapsuleShape3D_3o6rp")
 
 [node name="cast_center" type="RayCast3D" parent="."]
 target_position = Vector3(0, -5, 0)
@@ -46,3 +37,13 @@ target_position = Vector3(0, -5, 0)
 [node name="cast_right" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 target_position = Vector3(0, -5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00897217, -0.00210571, -0.143616)
+shape = SubResource("BoxShape3D_vhc3i")
+
+[node name="bumper_front_left" type="RayCast3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.583469, -0.214986, -1.71923)
+
+[node name="bumper_front_right" type="RayCast3D" parent="."]
+transform = Transform3D(4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 0, -3.82137e-15, 8.74228e-08, -1, 0.585145, -0.214986, -1.71923)
