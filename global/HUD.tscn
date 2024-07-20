@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://c74bmkg0dp1d"]
+
+[ext_resource type="Script" path="res://global/HUD.gd" id="1_45oql"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_45oql")
+
+[node name="debug_label" type="Label" parent="."]
+offset_left = 11.0
+offset_top = 10.0
+offset_right = 66.0
+offset_bottom = 33.0
+text = "DEBUG"
