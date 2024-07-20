@@ -13,13 +13,22 @@ extends CharacterBody3D
 @onready var cast_left: = $cast_left
 @onready var cast_right: = $cast_right
 
-
-# TODO: remove air_acceleration and only allow ground acceleration?
+# TODO: clean up unused variables
 @export var air_acceleration: float = 10
 @export var air_decceleration: float = 10
-@export var air_yaw_speed: float = 1.5
-@export var air_pitch_speed: float = 4
-@export var air_roll_speed: float = 4
+
+@export var air_yaw_acceleration: float = 1
+@export var air_yaw_decceleration: float = 4
+@export var air_yaw_max_speed: float = 1.5
+
+@export var air_roll_acceleration: float = 3
+@export var air_roll_decceleration: float = 6
+@export var air_roll_max_speed: float = 4
+
+@export var air_pitch_acceleration: float = 3
+@export var air_pitch_decceleration: float = 6
+@export var air_pitch_max_speed: float = 4
+
 @export var air_friction: float = 4
 @export var air_max_speed: float = 70
 @export var air_min_speed: float = 10
@@ -28,34 +37,81 @@ extends CharacterBody3D
 @export var air_stall_recovery_angle: float = deg_to_rad(70)
 
 @export var ground_acceleration: float = 8
-@export var ground_yaw_speed: float = 2
+
+@export var ground_yaw_acceleration: float = 6 
+@export var ground_yaw_decceleration: float = 4
+@export var ground_yaw_max_speed: float = 2
+
+@export var ground_pitch_acceleration: float = 6 
+@export var ground_pitch_decceleration: float = 4
+@export var ground_pitch_max_speed: float = 2
+@export var air_pitch_decay_speed: float = 3
+
+@export var ground_roll_acceleration: float = 6 
+@export var ground_roll_decceleration: float = 4
+@export var ground_roll_max_speed: float = 2
+
 @export var ground_friction: float = 5000
 @export var ground_max_speed: float = 150
-@export var ground_gravity: float = 20
-@export var ground_hover_target_height: float = 1
+@export var ground_gravity: float = 14
+@export var ground_auto_pitch_speed: float = 8
+@export var ground_auto_roll_speed: float = 8
+@export var ground_suction_angle_offset: float = deg_to_rad(-2)
+@export var ground_strafe_angle_offset: float = deg_to_rad(10)
 
 var throttle: float  # current throttle input
 var current_speed: float  # tracks current acceleration in the direction the ship is looking
 var rotate_input: Vector3  # tracks current input for rotation (pitch, roll, yaw)
 var is_stalling: bool  # tracks whether ship is currently stalling
+var grounded: bool
+
+var current_yaw_speed: float
+var current_roll_speed: float
+var current_pitch_speed: float
 
 var velocity_vertical_component: float  # tracks vertical component for gravity purposes
 
 
-# TODO: might want to return distance_squared_to()
+# returns raycast distance to collider, this should not be called if raycast is not colliding
 func raycast_distance(raycast: RayCast3D) -> float:
 	assert(raycast.is_colliding(), "getting raycast distance when there is no collision")
 	return global_transform.origin.distance_to(raycast.get_collision_point())
 
 
+# returns a new current rotation speed
+func update_rotation_speed(	current_rotation_speed: float, 
+							current_input: float,
+							rotation_acceleration: float,
+							rotation_decceleration: float,
+							max_rotation_speed: float,
+							delta: float) -> float:
+
+	if not is_zero_approx(current_input):
+		if sign(current_rotation_speed) != current_input:
+			current_rotation_speed += current_input * rotation_decceleration * delta
+		current_rotation_speed += current_input * rotation_acceleration * delta
+		current_rotation_speed = clampf(current_rotation_speed, -max_rotation_speed, max_rotation_speed)
+	else:
+		current_rotation_speed = move_toward(current_rotation_speed, 0, rotation_decceleration * delta)
+
+	return current_rotation_speed
+
+
 func move_ship_grounded(delta: float) -> void:
 	var forward: = -basis.z
+	var tilted_basis: = basis.rotated(basis.x, ground_suction_angle_offset)
 
-	# TODO: rotate/steer/pitch?
-	rotate(basis.y.normalized(), rotate_input.y * air_yaw_speed * delta)
-	# TODO: update for ground specific pitch
-	HUD.debug("pitch", rotate_input.x)
-	rotate(basis.x.normalized(), rotate_input.x * air_pitch_speed * 0.5 * delta)
+	var horizon: = Vector3(forward.x, 0, forward.z).normalized()
+
+	current_yaw_speed = update_rotation_speed(current_yaw_speed, rotate_input.y, ground_yaw_acceleration, ground_yaw_decceleration, ground_yaw_max_speed, delta)
+	rotate(basis.y.normalized(), current_yaw_speed * delta)
+	HUD.debug("current_yaw_speed", current_yaw_speed)
+
+	
+
+
+	# current_roll_speed = update_rotation_speed(current_roll_speed, rotate_input.z, ground_roll_acceleration, ground_roll_decceleration, ground_roll_max_speed, delta)
+	# HUD.debug("current_roll_speed", current_roll_speed)
 
 
 	HUD.debug("throttle", throttle)
@@ -73,52 +129,36 @@ func move_ship_grounded(delta: float) -> void:
 	elif throttle < 0 and current_speed > -ground_max_speed:
 		current_speed += throttle * ground_acceleration * delta
 	
-	# TODO: add checks for valid raycast distance calcs, if raycast dist isn't valid, 
-	# should NOT be sending it to rotate calc
-	# TODO: more gradually rotate with lerp or similar effect
+	current_pitch_speed = update_rotation_speed(current_pitch_speed, rotate_input.x, ground_pitch_acceleration, ground_pitch_decceleration, ground_pitch_max_speed, delta)
+	current_roll_speed = update_rotation_speed(current_roll_speed, rotate_input.z, ground_roll_acceleration, ground_roll_decceleration, ground_roll_max_speed, delta)
 
 	# don't auto-adjust to surface if raycast is not colliding
 	if ( cast_front.is_colliding() and cast_rear.is_colliding() and 
 		 cast_left.is_colliding() and cast_right.is_colliding() ):
 
-		# handle auto-pitch to surface
+		# handle auto-pitch to surface and add current_pitch_speed from input
 		var front_rear_diff: = raycast_distance(cast_front) - raycast_distance(cast_rear)
 		HUD.debug("front_rear_diff", front_rear_diff)
-		rotate(basis.x.normalized(), -front_rear_diff * delta)
+		rotate(basis.x.normalized(), -front_rear_diff * ground_auto_pitch_speed * delta + current_pitch_speed * delta)
 
 		# handle auto-roll to surface
 		var left_right_diff: = raycast_distance(cast_left) - raycast_distance(cast_right)
 		HUD.debug("left_right_diff", left_right_diff)
-		rotate(basis.z.normalized(), left_right_diff * delta)
+		rotate(basis.z.normalized(), left_right_diff * ground_auto_roll_speed * delta + current_roll_speed * delta)
+
+		# add strafe movement by re-orienting the tilted basis based on input instead of roll angle
+		if not is_zero_approx(rotate_input.z):
+			HUD.debug("test", "ON")
+			tilted_basis = tilted_basis.rotated(tilted_basis.y, rotate_input.z * ground_strafe_angle_offset)
+		else:
+			HUD.debug("test", "off")
 	
-	# suck to ground, max height based on length of raycast length
-	HUD.debug("ground_detect", cast_ground_detector.is_colliding())
-	if cast_center.is_colliding():
-		velocity_vertical_component += -ground_gravity * delta #* raycast_distance(cast_center)
-		velocity_vertical_component = max(-10, velocity_vertical_component)
-
-	# elif cast_ground_detector.is_colliding():
-		# velocity_vertical_component += ground_gravity * delta
-	# elif:
-	# 	velocity_vertical_component = -air_gravity
-	# 	lerp()
-		# handle ground effect sucking down to ground
-		# HUD.debug("cast_center", raycast_distance(cast_center))
-		# # TODO: add vertical component
-		# var hover_height:float = raycast_distance(cast_center)
-		# var distance_to_hover_height:float = abs(ground_hover_target_height - hover_height)
-		# # TODO: might want to make these exponential/related to hover height directly (more distance, higher grav change)
-		# if hover_height > 1.6:
-		# 	velocity_vertical_component -= ground_gravity * (distance_to_hover_height**2) * delta
-		# elif hover_height < 1.0:
-		# 	velocity_vertical_component += ground_gravity * (distance_to_hover_height**2) * delta
-
-
 	# debug movement
 	# velocity.y += rotate_input.x * delta * 10
 	# velocity += forward * throttle * delta * 10
 
 	# TODO: handle colliding with walls, likely have to reset current_speed to velocity.length()
+	# probably better to just do a raycast bumper on the corners and adjust from there
 
 	if Input.is_action_pressed("debug1"):
 		velocity_vertical_component -= ground_gravity * delta
@@ -127,37 +167,50 @@ func move_ship_grounded(delta: float) -> void:
 	
 	HUD.debug("vert_component", velocity_vertical_component)
 
-	velocity = forward * current_speed
-	# TODO: add constant for this
-	# TODO: this should potentially be based off of angle compared to track? input prob works for now
-	if not rotate_input.x > 0.08:
-		velocity.y = velocity_vertical_component
+	# apply gravity to current speed
+	var angle_to_horizon: float
+	angle_to_horizon = forward.angle_to(horizon)
+	if forward.dot(Vector3.UP) < 0:
+		angle_to_horizon = -angle_to_horizon
+	HUD.debug("angle_to_horizon", angle_to_horizon)
+	current_speed += -angle_to_horizon * ground_gravity * delta
+
+	# velocity = forward * current_speed
+	var tilted_forward: = -tilted_basis.z
+	velocity = tilted_forward * current_speed
+	HUD.debug("tilted", tilted_forward)
+
 	move_and_slide()
 
 
 func move_ship_flying(delta: float) -> void:
 
-
-	#
-	# TODO: should I be just saving/updating the gravity vel component 
-	# separately and adding it back in? This might reduce the need for
-	# a stall mechanic
-	#
-
+	# TODO: should be positive basis (refactor)
 	var forward: = -basis.z
 	var horizon: = Vector3(forward.x, 0, forward.z).normalized()
 
-	rotate(basis.z.normalized(), rotate_input.z * air_roll_speed * delta)
-	rotate(basis.x.normalized(), rotate_input.x * air_pitch_speed * delta)
-	rotate(basis.y.normalized(), rotate_input.y * air_yaw_speed * delta)
+	current_yaw_speed = update_rotation_speed(current_yaw_speed, rotate_input.y, air_yaw_acceleration, air_yaw_decceleration, air_yaw_max_speed, delta)
+	current_roll_speed = update_rotation_speed(current_roll_speed, rotate_input.z, air_roll_acceleration, air_roll_decceleration, air_roll_max_speed, delta)
+	current_pitch_speed = update_rotation_speed(current_pitch_speed, rotate_input.x, air_pitch_acceleration, air_pitch_decceleration, air_pitch_max_speed, delta)
+	if is_zero_approx(rotate_input.x):
+		current_pitch_speed -= air_pitch_decay_speed * delta  # add decay
+	rotate(basis.y.normalized(), current_yaw_speed * delta)
+	rotate(basis.z.normalized(), current_roll_speed * delta)
+	rotate(basis.x.normalized(), current_pitch_speed * delta)
+
+	HUD.debug("current_roll_speed", current_roll_speed)
+	HUD.debug("current_yaw_speed", current_yaw_speed)
 
 	HUD.debug("throttle", throttle)
 	HUD.debug("current_speed", current_speed)
 	HUD.debug("velocity.length", velocity.length())
 
-	if throttle > 0 and current_speed < air_max_speed:
-		current_speed += throttle * air_acceleration * delta
-	elif throttle < 0 and current_speed > air_min_speed:
+	# throttle, disabled for actual game
+	# if throttle > 0 and current_speed < air_max_speed:
+	# 	current_speed += throttle * air_acceleration * delta
+
+	# braking
+	if throttle < 0 and current_speed > air_min_speed:
 		current_speed += throttle * air_decceleration * delta
 	
 	# Affect current speed based on angle to horizon, current speed, and gravity.
@@ -195,7 +248,14 @@ func move_ship_flying(delta: float) -> void:
 
 
 func is_grounded() -> bool:
-	var grounded:bool = cast_ground_detector.is_colliding()
+	var new_grounded:bool = cast_ground_detector.is_colliding()
+
+	# transitioning from grounded to not grounded
+	if grounded and not new_grounded:
+		current_pitch_speed = 0
+
+	grounded = new_grounded
+
 	if grounded: is_stalling = false  # always disable stalling when grounded
 	HUD.debug("grounded", grounded)
 	return grounded
@@ -218,6 +278,7 @@ func move_ship(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	HUD.debug("forward", -basis.z)
 
 	# TODO: move to global/menu
 	if Input.is_action_just_released("ui_cancel"): get_tree().quit()
