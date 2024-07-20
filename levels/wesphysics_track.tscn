@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c46c0cq7afah7"]
 
-[ext_resource type="PackedScene" path="res://levels/track_csg.tscn" id="1_5c0og"]
+[ext_resource type="PackedScene" uid="uid://dnw5ilawv3gd4" path="res://levels/track_mesh.tscn" id="1_5c0og"]
 
 [sub_resource type="Curve3D" id="Curve3D_yl5qg"]
 _data = {
@@ -15,4 +15,3 @@ point_count = 14
 curve = SubResource("Curve3D_yl5qg")
 
 [node name="track_csg" parent="." instance=ExtResource("1_5c0og")]
-path_node = NodePath("../Path3D")
