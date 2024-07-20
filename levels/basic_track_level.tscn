@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://4ayl1q75x27y"]
+[gd_scene load_steps=14 format=3 uid="uid://4ayl1q75x27y"]
 
 [ext_resource type="PackedScene" uid="uid://dnw5ilawv3gd4" path="res://levels/track_mesh.tscn" id="1_myykx"]
+[ext_resource type="PackedScene" uid="uid://ciub0sjv6841a" path="res://ship_art/level01.blend" id="1_pg0n3"]
 [ext_resource type="PackedScene" uid="uid://b3mi6w6egox4h" path="res://Ship/Ship.tscn" id="2_c2xtl"]
 [ext_resource type="Texture2D" uid="uid://cbt3f56ene1c0" path="res://environment/coast_rocks.jpg" id="3_j4f7o"]
 [ext_resource type="Texture2D" uid="uid://bkxiyymkm26m6" path="res://environment/coast_rocks_normal.jpg" id="4_hhh1h"]
@@ -43,8 +44,10 @@ sky = SubResource("Sky_3eepx")
 
 [node name="basic_track_level" type="Node3D"]
 
+[node name="level01" parent="." instance=ExtResource("1_pg0n3")]
+
 [node name="basic_track" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -735.365, 73.0743, 424.293)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1542.65, 441.93, -583.361)
 
 [node name="Path3D" type="Path3D" parent="basic_track"]
 curve = SubResource("Curve3D_ortey")

@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bvx28caw0wlv2"
-path="res://.godot/imported/ship_guest.blend-3fbc998a1443cd27e1d026a399ff0d6c.scn"
+path="res://.godot/imported/ship_guest.blend-eeb16a5e786c4c617ce98ec51fefce68.scn"
 
 [deps]
 
-source_file="res://assets/ship/ship_guest.blend"
-dest_files=["res://.godot/imported/ship_guest.blend-3fbc998a1443cd27e1d026a399ff0d6c.scn"]
+source_file="res://ship_art/ship_guest.blend"
+dest_files=["res://.godot/imported/ship_guest.blend-eeb16a5e786c4c617ce98ec51fefce68.scn"]
 
 [params]
 
