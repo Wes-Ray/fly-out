@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dnw5ilawv3gd4"]
+
+[node name="track_shape" type="Node3D"]
+
+[node name="track_floor" type="CSGPolygon3D" parent="."]
+polygon = PackedVector2Array(-5, -0.8, -5, 0, 5, 0, 5, -0.8)
+
+[node name="track_rail2" type="CSGPolygon3D" parent="."]
+polygon = PackedVector2Array(-5, -0.8, -5, 0.4, -6, 1.4, -6, -0.3)
+
+[node name="track_rail1" type="CSGPolygon3D" parent="."]
+polygon = PackedVector2Array(5, -0.8, 5, 0.4, 6, 1.4, 6, -0.3)
