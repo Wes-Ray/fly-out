@@ -19,39 +19,12 @@ curve = SubResource("Curve3D_ortey")
 [node name="track_mesh" parent="." instance=ExtResource("1_oy4pd")]
 
 [node name="track_floor" parent="track_mesh" index="0"]
-mode = 2
 path_node = NodePath("../../Path3D")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [node name="track_rail2" parent="track_mesh" index="1"]
-mode = 2
 path_node = NodePath("../../Path3D")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [node name="track_rail1" parent="track_mesh" index="2"]
-mode = 2
 path_node = NodePath("../../Path3D")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [editable path="track_mesh"]
