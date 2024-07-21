@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://4ayl1q75x27y"]
+[gd_scene load_steps=15 format=3 uid="uid://4ayl1q75x27y"]
 
 [ext_resource type="PackedScene" uid="uid://dnw5ilawv3gd4" path="res://levels/track_mesh.tscn" id="1_myykx"]
 [ext_resource type="PackedScene" uid="uid://ciub0sjv6841a" path="res://ship_art/level01.blend" id="1_pg0n3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cbt3f56ene1c0" path="res://environment/coast_rocks.jpg" id="3_j4f7o"]
 [ext_resource type="Texture2D" uid="uid://bkxiyymkm26m6" path="res://environment/coast_rocks_normal.jpg" id="4_hhh1h"]
 [ext_resource type="Texture2D" uid="uid://cacxywgcw1lvv" path="res://environment/autumn_field_puresky_2k.hdr" id="5_aowa0"]
+[ext_resource type="PackedScene" uid="uid://c3ren7jhcskfa" path="res://checkpoint/checkpoint.tscn" id="7_knbew"]
 
 [sub_resource type="Curve3D" id="Curve3D_ortey"]
 bake_interval = 0.5
@@ -151,6 +152,18 @@ path_joined = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gbk1l")
+
+[node name="Checkpoint" parent="." instance=ExtResource("7_knbew")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 125.58, 74.4717, 424.433)
+
+[node name="Checkpoint2" parent="." instance=ExtResource("7_knbew")]
+transform = Transform3D(0.996704, 0, -0.0811209, 0, 1, 0, 0.0811209, 0, 0.996704, 353.081, 75.2911, -155.821)
+checkpoint_number = 2
+
+[node name="Checkpoint3" parent="." instance=ExtResource("7_knbew")]
+transform = Transform3D(0.977703, 0, 0.209994, 0, 1, 0, -0.209994, 0, 0.977703, -505.069, 122.926, 359.573)
+checkpoint_number = 3
+finish = true
 
 [editable path="track_mesh"]
 [editable path="track_mesh2"]
