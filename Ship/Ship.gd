@@ -12,6 +12,15 @@ extends CharacterBody3D
 @onready var cast_rear: = $cast_rear
 @onready var cast_left: = $cast_left
 @onready var cast_right: = $cast_right
+# Audio players
+@onready var death_sound_player: = %DeathSoundPlayer
+@onready var checkpoint_sound_player: = %CheckpointSoundPlayer
+@onready var right_bump_sound_player: = %RightBumpSoundPlayer
+@onready var left_bump_sound_player: = %LeftBumpSoundPlayer
+@onready var wind_sound_player: = %WindSoundPlayer
+@onready var engine_a_sound_player: = %EngineASoundPlayer
+@onready var engine_b_sound_player: = %EngineBSoundPlayer
+@onready var rocket_sound_player: = %RocketSoundPlayer
 
 @onready var bumper_front_left: = $bumper_front_left
 @onready var bumper_front_right: = $bumper_front_right
@@ -103,6 +112,9 @@ func update_rotation_speed(	current_rotation_speed: float,
 
 
 func move_ship_grounded(delta: float) -> void:
+
+	throttle_sound_adjust(throttle)
+
 	var forward: = -basis.z
 	var tilted_basis: = basis.rotated(basis.x, ground_suction_angle_offset)
 
@@ -156,10 +168,12 @@ func move_ship_grounded(delta: float) -> void:
 		rotate(basis.y.normalized(), -ground_bumper_bounce_speed * delta)
 		if current_speed > ground_bumper_min_speed:
 			current_speed -= ground_bumper_friction * delta
+		left_bump_sound_player.bump()
 	if bumper_front_right.is_colliding():
 		rotate(basis.y.normalized(), ground_bumper_bounce_speed * delta)
 		if current_speed > ground_bumper_min_speed:
 			current_speed -= ground_bumper_friction * delta
+		right_bump_sound_player.bump()
 
 	# apply gravity to current speed
 	var angle_to_horizon: float
@@ -177,11 +191,15 @@ func move_ship_grounded(delta: float) -> void:
 
 	# apply friction
 	current_speed = move_toward(current_speed, 0, ground_friction * delta)
+	
+	speed_sound_adjust(current_speed)
 
 	move_and_slide()
 
 
 func move_ship_flying(delta: float) -> void:
+
+	throttle_sound_adjust(0)
 
 	# TODO: should be positive basis (refactor)
 	var forward: = -basis.z
@@ -244,6 +262,8 @@ func move_ship_flying(delta: float) -> void:
 	
 	# apply friction
 	current_speed = move_toward(current_speed, 0, air_friction * delta)
+
+	speed_sound_adjust(current_speed)
 	
 	HUD.debug("is_stalling", is_stalling)
 	move_and_slide()
@@ -287,3 +307,26 @@ func _physics_process(delta: float) -> void:
 	# TODO: move to global/menu
 	if Input.is_action_just_released("ui_cancel"): get_tree().quit()
 	move_ship(delta)
+
+
+func throttle_sound_adjust(throttle: float) -> void:
+	# scaling formula:
+	# OldRange = (OldMax - OldMin)  
+	# NewRange = (NewMax - NewMin)  
+	# NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
+	throttle = clampf(throttle, 0, 1)
+
+	var pitch : float = (throttle * 1.5) + 0.5
+	engine_a_sound_player.pitch_scale = lerp(engine_a_sound_player.pitch_scale, pitch, 0.2)
+	engine_b_sound_player.pitch_scale = lerp(engine_b_sound_player.pitch_scale, pitch, 0.2)
+	rocket_sound_player.pitch_scale = lerp(rocket_sound_player.pitch_scale, pitch, 0.2)
+
+	var volume : float = ((throttle) * (-12 - -16)) - 16
+	rocket_sound_player.max_db = lerp(rocket_sound_player.max_db, volume, 0.2)
+	print(throttle)
+
+
+func speed_sound_adjust(speed: float) -> void:
+	speed = clampf(speed, 0, 150)
+	var volume : float = (((speed) * (-9 - -24)) / 150)- 24
+	wind_sound_player.max_db = volume
