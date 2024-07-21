@@ -379,7 +379,8 @@ func _on_checkpoint_detector_area_entered(area: Variant) -> void:
 	elif area.checkpoint_number == current_checkpoint + 1:
 		
 		if area.checkpoint_number == 1:
-			music_player.playing = true
+			if not music_player.playing:
+				music_player.playing = true
 			lap_checkpoint_times.append([])
 			current_lap_time = 0
 		lap_checkpoint_times[current_lap_idx].append(current_lap_time)

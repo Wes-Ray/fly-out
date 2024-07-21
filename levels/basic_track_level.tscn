@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://4ayl1q75x27y"]
+[gd_scene load_steps=14 format=3 uid="uid://4ayl1q75x27y"]
 
 [ext_resource type="PackedScene" uid="uid://dnw5ilawv3gd4" path="res://levels/track_mesh.tscn" id="1_myykx"]
 [ext_resource type="PackedScene" uid="uid://b3mi6w6egox4h" path="res://Ship/Ship.tscn" id="2_c2xtl"]

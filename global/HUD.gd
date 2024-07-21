@@ -32,9 +32,13 @@ func update_checkpoint(checkpoint_list: Variant, _current_lap_idx: int, _finish:
 	active = true
 	var scoreboard: = ""
 	for i: int in range(checkpoint_list.size()):
-		scoreboard += "LAP: " + str(i + 1) + "\n"
+		scoreboard += "[font_size=30]LAP: " + str(i + 1) + "\n[/font_size]"
 		for y: int in range(checkpoint_list[i].size()):
 			if y == 0:
 				continue
-			scoreboard += str("%0.3f" % checkpoint_list[i][y]) + "\n"
+			scoreboard += "[font_size=16]" + str(y) + ": " + str("%0.3f" % checkpoint_list[i][y]) + "\n[font_size=20]"
 	checkpoint_display.text = scoreboard
+
+#[font_size=30]test[/font_size]
+#[font_size=20]test[/font_size]
+#
