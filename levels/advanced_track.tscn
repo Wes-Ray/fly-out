@@ -85,117 +85,54 @@ environment = SubResource("Environment_gbk1l")
 [node name="track_mesh" parent="." instance=ExtResource("4_y45mn")]
 
 [node name="track_floor" parent="track_mesh" index="0"]
-mode = 2
 path_node = NodePath("../../tracks/Path3D")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [node name="track_rail2" parent="track_mesh" index="1"]
-mode = 2
 path_node = NodePath("../../tracks/Path3D")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [node name="track_rail1" parent="track_mesh" index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0748501, 0)
-mode = 2
 path_node = NodePath("../../tracks/Path3D")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
+
+[node name="wall1" parent="track_mesh" index="3"]
+path_node = NodePath("../../tracks/Path3D")
+
+[node name="wall2" parent="track_mesh" index="4"]
+path_node = NodePath("../../tracks/Path3D")
 
 [node name="track_mesh2" parent="." instance=ExtResource("4_y45mn")]
 
 [node name="track_floor" parent="track_mesh2" index="0"]
-mode = 2
 path_node = NodePath("../../tracks/Path3D2")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [node name="track_rail2" parent="track_mesh2" index="1"]
-mode = 2
 path_node = NodePath("../../tracks/Path3D2")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [node name="track_rail1" parent="track_mesh2" index="2"]
-mode = 2
 path_node = NodePath("../../tracks/Path3D2")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
+
+[node name="wall1" parent="track_mesh2" index="3"]
+path_node = NodePath("../../tracks/Path3D2")
+
+[node name="wall2" parent="track_mesh2" index="4"]
+path_node = NodePath("../../tracks/Path3D2")
 
 [node name="track_mesh3" parent="." instance=ExtResource("4_y45mn")]
 
 [node name="track_floor" parent="track_mesh3" index="0"]
-mode = 2
 path_node = NodePath("../../tracks/Path3D3")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [node name="track_rail2" parent="track_mesh3" index="1"]
-mode = 2
 path_node = NodePath("../../tracks/Path3D3")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [node name="track_rail1" parent="track_mesh3" index="2"]
-mode = 2
 path_node = NodePath("../../tracks/Path3D3")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
+
+[node name="wall1" parent="track_mesh3" index="3"]
+path_node = NodePath("../../tracks/Path3D3")
+
+[node name="wall2" parent="track_mesh3" index="4"]
+path_node = NodePath("../../tracks/Path3D3")
 
 [editable path="track_mesh"]
 [editable path="track_mesh2"]

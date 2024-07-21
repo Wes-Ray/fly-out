@@ -1,5 +1,4 @@
-; [gd_scene load_steps=5 format=3 uid="uid://b3mi6w6egox4h"]
-[gd_scene load_steps=15 format=3 uid="uid://b3mi6w6egox4h"]
+[gd_scene load_steps=16 format=3 uid="uid://b3mi6w6egox4h"]
 
 [ext_resource type="Script" path="res://Ship/Ship.gd" id="1_7kbbf"]
 [ext_resource type="PackedScene" uid="uid://bvx28caw0wlv2" path="res://ship_art/ship_guest.blend" id="2_f7iji"]
