@@ -373,6 +373,7 @@ func _on_checkpoint_detector_area_entered(area: Variant) -> void:
 		current_checkpoint = 0
 		current_lap_idx += 1
 		HUD.update_checkpoint(lap_checkpoint_times, current_checkpoint, true)
+		finish_sound_player.playing = true
 		save_checkpoint_data()
 
 	# correct checkpoint reached
@@ -387,6 +388,7 @@ func _on_checkpoint_detector_area_entered(area: Variant) -> void:
 
 		current_checkpoint += 1
 		HUD.update_checkpoint(lap_checkpoint_times, current_checkpoint)
+		checkpoint_sound_player.checkpoint()
 		save_checkpoint_data()
 
 	# skipped a checkpoint

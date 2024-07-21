@@ -73,92 +73,50 @@ transform = Transform3D(-0.016737, 0, -0.99986, 0, 1, 0, 0.99986, 0, -0.016737, 
 [node name="track_mesh" parent="." instance=ExtResource("1_myykx")]
 
 [node name="track_floor" parent="track_mesh" index="0"]
-mode = 2
 path_node = NodePath("../../basic_track/Path3D")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [node name="track_rail2" parent="track_mesh" index="1"]
-mode = 2
 path_node = NodePath("../../basic_track/Path3D")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [node name="track_rail1" parent="track_mesh" index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0748501, 0)
-mode = 2
 path_node = NodePath("../../basic_track/Path3D")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
+
+[node name="wall1" parent="track_mesh" index="3"]
+path_node = NodePath("../../basic_track/Path3D")
+
+[node name="wall2" parent="track_mesh" index="4"]
+path_node = NodePath("../../basic_track/Path3D")
 
 [node name="track_mesh2" parent="." instance=ExtResource("1_myykx")]
 
 [node name="track_floor" parent="track_mesh2" index="0"]
-mode = 2
 path_node = NodePath("../../basic_track/Path3D2")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [node name="track_rail2" parent="track_mesh2" index="1"]
-mode = 2
 path_node = NodePath("../../basic_track/Path3D2")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
 
 [node name="track_rail1" parent="track_mesh2" index="2"]
-mode = 2
 path_node = NodePath("../../basic_track/Path3D2")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
+
+[node name="wall1" parent="track_mesh2" index="3"]
+path_node = NodePath("../../basic_track/Path3D2")
+
+[node name="wall2" parent="track_mesh2" index="4"]
+path_node = NodePath("../../basic_track/Path3D2")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gbk1l")
 
 [node name="Checkpoint" parent="." instance=ExtResource("7_knbew")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 125.58, 74.4717, 424.433)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 125.58, 65.2684, 424.433)
 
 [node name="Checkpoint2" parent="." instance=ExtResource("7_knbew")]
-transform = Transform3D(0.996704, 0, -0.0811209, 0, 1, 0, 0.0811209, 0, 0.996704, 353.081, 75.2911, -155.821)
+transform = Transform3D(0.996704, 0, -0.0811209, 0, 1, 0, 0.0811209, 0, 0.996704, 350.276, 67.4593, -155.821)
 checkpoint_number = 2
 
 [node name="Checkpoint3" parent="." instance=ExtResource("7_knbew")]
-transform = Transform3D(0.977703, 0, 0.209994, 0, 1, 0, -0.209994, 0, 0.977703, -505.069, 122.926, 359.573)
+transform = Transform3D(0.977703, 0, 0.209994, 0, 1, 0, -0.209994, 0, 0.977703, -508.434, 114.955, 359.573)
 checkpoint_number = 3
 finish = true
 
