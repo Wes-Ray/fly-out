@@ -8,6 +8,11 @@
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1600.0
+offset_bottom = 900.0
+color = Color(0.94902, 0.654902, 0.317647, 1)
+
 [node name="OptionsMenu" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
