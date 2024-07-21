@@ -3,6 +3,7 @@ extends CanvasLayer
 @onready var debug_label: = $debug_label
 @onready var checkpoint_display: = $Control/lap_display
 @onready var timer_display: = $Control/timer_display
+@onready var speedometer_display: = $Control/speedometer_display
 
 var debug_dict:= {}
 var active: = false
@@ -26,6 +27,10 @@ func display_time(lap_time: float) -> void:
 		return
 
 	timer_display.text = str("%0.3f" % lap_time)
+
+
+func update_speedometer(speed: float) -> void:
+	speedometer_display.text = str("%0.0f\nKPH" % (speed*4))
 
 
 func update_checkpoint(checkpoint_list: Variant, _current_lap_idx: int, _finish: bool = false) -> void:

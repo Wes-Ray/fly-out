@@ -21,6 +21,45 @@ size = Vector3(2.78, 0.605, 4.735)
 
 [node name="Ship" type="CharacterBody3D"]
 script = ExtResource("1_7kbbf")
+air_acceleration = null
+air_decceleration = null
+air_yaw_acceleration = null
+air_yaw_decceleration = null
+air_yaw_max_speed = null
+air_roll_acceleration = null
+air_roll_decceleration = null
+air_roll_max_speed = null
+air_roll_decay_speed = null
+air_pitch_acceleration = null
+air_pitch_decceleration = null
+air_pitch_max_speed = null
+air_pitch_decay_speed = null
+air_friction = null
+air_max_speed = null
+air_min_speed = null
+air_gravity = null
+air_stall_acceleration = null
+air_stall_recovery_angle = null
+ground_acceleration = null
+ground_yaw_acceleration = null
+ground_yaw_decceleration = null
+ground_yaw_max_speed = null
+ground_pitch_acceleration = null
+ground_pitch_decceleration = null
+ground_pitch_max_speed = null
+ground_roll_acceleration = null
+ground_roll_decceleration = null
+ground_roll_max_speed = null
+ground_friction = null
+ground_max_speed = null
+ground_gravity = null
+ground_auto_pitch_speed = null
+ground_auto_roll_speed = null
+ground_suction_angle_offset = null
+ground_strafe_angle_offset = null
+ground_bumper_bounce_speed = null
+ground_bumper_friction = null
+ground_bumper_min_speed = null
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.989629, 0.143648, 0, -0.143648, 0.989629, 0, 0.171, -2.23074)

@@ -334,6 +334,7 @@ func _physics_process(delta: float) -> void:
 	# update lap timer
 	current_lap_time += delta
 	HUD.display_time(current_lap_time)
+	HUD.update_speedometer(current_speed)
 
 	move_ship(delta)
 
