@@ -5,6 +5,7 @@ extends CanvasLayer
 @onready var timer_display: = $Control/timer_display
 
 var debug_dict:= {}
+var active: = false
 
 
 func debug(debug_name: String, value: Variant = "") -> void:
@@ -21,10 +22,14 @@ func debug(debug_name: String, value: Variant = "") -> void:
 
 
 func display_time(lap_time: float) -> void:
+	if not active:
+		return
+
 	timer_display.text = str("%0.3f" % lap_time)
 
 
 func update_checkpoint(checkpoint_list: Variant, _current_lap_idx: int, _finish: bool = false) -> void:
+	active = true
 	var scoreboard: = ""
 	for i: int in range(checkpoint_list.size()):
 		scoreboard += "LAP: " + str(i + 1) + "\n"

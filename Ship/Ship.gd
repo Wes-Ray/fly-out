@@ -22,6 +22,7 @@ extends CharacterBody3D
 @onready var engine_a_sound_player: = %EngineASoundPlayer
 @onready var engine_b_sound_player: = %EngineBSoundPlayer
 @onready var rocket_sound_player: = %RocketSoundPlayer
+@onready var music_player: = %MusicPlayer
 
 @onready var bumper_front_left: = $bumper_front_left
 @onready var bumper_front_right: = $bumper_front_right
@@ -378,6 +379,7 @@ func _on_checkpoint_detector_area_entered(area: Variant) -> void:
 	elif area.checkpoint_number == current_checkpoint + 1:
 		
 		if area.checkpoint_number == 1:
+			music_player.playing = true
 			lap_checkpoint_times.append([])
 			current_lap_time = 0
 		lap_checkpoint_times[current_lap_idx].append(current_lap_time)
@@ -398,21 +400,20 @@ func _on_checkpoint_detector_area_entered(area: Variant) -> void:
 	HUD.debug("lap time", lap_checkpoint_times)
 
 
-func throttle_sound_adjust(throttle: float) -> void:
+func throttle_sound_adjust(in_throttle: float) -> void:
 	# scaling formula:
 	# OldRange = (OldMax - OldMin)  
 	# NewRange = (NewMax - NewMin)  
 	# NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
-	throttle = clampf(throttle, 0, 1)
+	var sound_throttle: = clampf(in_throttle, 0, 1)
 
-	var pitch : float = (throttle * 1.5) + 0.5
+	var pitch : float = (sound_throttle * 1.5) + 0.5
 	engine_a_sound_player.pitch_scale = lerp(engine_a_sound_player.pitch_scale, pitch, 0.2)
 	engine_b_sound_player.pitch_scale = lerp(engine_b_sound_player.pitch_scale, pitch, 0.2)
 	rocket_sound_player.pitch_scale = lerp(rocket_sound_player.pitch_scale, pitch, 0.2)
 
-	var volume : float = ((throttle) * (-12 - -16)) - 16
+	var volume : float = ((sound_throttle) * (-12 - -16)) - 16
 	rocket_sound_player.max_db = lerp(rocket_sound_player.max_db, volume, 0.2)
-	print(throttle)
 
 
 func speed_sound_adjust(speed: float) -> void:
