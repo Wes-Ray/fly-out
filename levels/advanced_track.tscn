@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://daqy8skjhafit"]
+[gd_scene load_steps=16 format=3 uid="uid://daqy8skjhafit"]
 
 [ext_resource type="Texture2D" uid="uid://cbt3f56ene1c0" path="res://environment/coast_rocks.jpg" id="1_uyqbr"]
 [ext_resource type="Texture2D" uid="uid://bkxiyymkm26m6" path="res://environment/coast_rocks_normal.jpg" id="2_jn7gl"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dnw5ilawv3gd4" path="res://levels/track_mesh.tscn" id="4_y45mn"]
 [ext_resource type="Texture2D" uid="uid://cacxywgcw1lvv" path="res://environment/autumn_field_puresky_2k.hdr" id="5_pklr3"]
 [ext_resource type="PackedScene" uid="uid://bem0e5o70exo5" path="res://environment/advanced_rocks.tscn" id="6_ao36d"]
+[ext_resource type="PackedScene" uid="uid://c3ren7jhcskfa" path="res://checkpoint/checkpoint.tscn" id="7_k8oye"]
 
 [sub_resource type="Curve3D" id="Curve3D_ortey"]
 bake_interval = 0.5
@@ -79,45 +80,6 @@ material = SubResource("StandardMaterial3D_hcwyf")
 
 [node name="Ship" parent="." instance=ExtResource("3_pd18f")]
 transform = Transform3D(-0.016737, 0, -0.99986, 0, 1, 0, 0.99986, 0, -0.016737, -770.806, 324.602, 447.983)
-air_acceleration = null
-air_decceleration = null
-air_yaw_acceleration = null
-air_yaw_decceleration = null
-air_yaw_max_speed = null
-air_roll_acceleration = null
-air_roll_decceleration = null
-air_roll_max_speed = null
-air_roll_decay_speed = null
-air_pitch_acceleration = null
-air_pitch_decceleration = null
-air_pitch_max_speed = null
-air_pitch_decay_speed = null
-air_friction = null
-air_max_speed = null
-air_min_speed = null
-air_gravity = null
-air_stall_acceleration = null
-air_stall_recovery_angle = null
-ground_acceleration = null
-ground_yaw_acceleration = null
-ground_yaw_decceleration = null
-ground_yaw_max_speed = null
-ground_pitch_acceleration = null
-ground_pitch_decceleration = null
-ground_pitch_max_speed = null
-ground_roll_acceleration = null
-ground_roll_decceleration = null
-ground_roll_max_speed = null
-ground_friction = null
-ground_max_speed = null
-ground_gravity = null
-ground_auto_pitch_speed = null
-ground_auto_roll_speed = null
-ground_suction_angle_offset = null
-ground_strafe_angle_offset = null
-ground_bumper_bounce_speed = null
-ground_bumper_friction = null
-ground_bumper_min_speed = null
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gbk1l")
@@ -175,6 +137,30 @@ path_node = NodePath("../../tracks/Path3D3")
 path_node = NodePath("../../tracks/Path3D3")
 
 [node name="advanced-rocks" parent="." instance=ExtResource("6_ao36d")]
+
+[node name="Checkpoint1" parent="." instance=ExtResource("7_k8oye")]
+transform = Transform3D(-0.0603343, 0, -0.998178, 0, 1, 0, 0.998178, 0, -0.0603343, -387.456, 66.6913, 445.408)
+
+[node name="Checkpoint2" parent="." instance=ExtResource("7_k8oye")]
+transform = Transform3D(0.907748, 0, -0.419516, 0, 1, 0, 0.419516, 0, 0.907748, 403.133, 67.0964, 540.895)
+checkpoint_number = 2
+
+[node name="Checkpoint3" parent="." instance=ExtResource("7_k8oye")]
+transform = Transform3D(-0.990302, 0, 0.138931, 0.0203938, 0.989168, 0.145367, -0.137426, 0.146791, -0.979575, 1212.84, 87.6862, -56.5777)
+checkpoint_number = 3
+
+[node name="Checkpoint4" parent="." instance=ExtResource("7_k8oye")]
+transform = Transform3D(0.721313, 0, 0.692609, 0, 1, 0, -0.692609, 0, 0.721313, 825.111, 273.957, 57.5906)
+checkpoint_number = 4
+
+[node name="Checkpoint5" parent="." instance=ExtResource("7_k8oye")]
+transform = Transform3D(-0.0131419, 0, 0.999914, 0, 1, 0, -0.999914, 0, -0.0131419, -374.051, 152.934, -640.349)
+checkpoint_number = 5
+
+[node name="Checkpoint6" parent="." instance=ExtResource("7_k8oye")]
+transform = Transform3D(0.940175, 0, 0.340691, 0, 1, 0, -0.340691, 0, 0.940175, -716.267, 189.169, 153.361)
+checkpoint_number = 6
+finish = true
 
 [editable path="track_mesh"]
 [editable path="track_mesh2"]
