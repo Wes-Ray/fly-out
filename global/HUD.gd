@@ -29,8 +29,12 @@ func display_time(lap_time: float) -> void:
 	timer_display.text = str("%0.3f" % lap_time)
 
 
-func update_speedometer(speed: float) -> void:
-	speedometer_display.text = str("%0.0f\nKPH" % (speed*4))
+func update_speedometer(speed: float, hide:= false) -> void:
+	if hide:
+		speedometer_display.visible = false
+	else:
+		speedometer_display.visible = true
+		speedometer_display.text = str("%0.0f\nKPH" % (speed*4))
 
 
 func update_checkpoint(checkpoint_list: Variant, _current_lap_idx: int, _finish: bool = false) -> void:

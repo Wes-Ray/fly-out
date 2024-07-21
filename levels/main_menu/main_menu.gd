@@ -1,5 +1,7 @@
 extends Control
 
+func _ready() -> void:
+	HUD.update_speedometer(0, true)
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()

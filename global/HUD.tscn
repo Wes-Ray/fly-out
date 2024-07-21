@@ -48,6 +48,7 @@ fit_content = true
 scroll_active = false
 
 [node name="speedometer_display" type="RichTextLabel" parent="Control"]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
