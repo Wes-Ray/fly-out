@@ -1,10 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3mi6w6egox4h"]
+[gd_scene load_steps=5 format=3 uid="uid://b3mi6w6egox4h"]
 
 [ext_resource type="Script" path="res://Ship/Ship.gd" id="1_7kbbf"]
 [ext_resource type="PackedScene" uid="uid://bvx28caw0wlv2" path="res://ship_art/ship_guest.blend" id="2_f7iji"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_830pw"]
 size = Vector3(2.78, 0.605, 4.735)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_17lnq"]
 
 [node name="Ship" type="CharacterBody3D"]
 script = ExtResource("1_7kbbf")
@@ -48,3 +50,11 @@ transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -1, 0,
 
 [node name="bumper_front_right" type="RayCast3D" parent="."]
 transform = Transform3D(4.37114e-08, -1, 8.74228e-08, -1, -4.37114e-08, 0, 3.82137e-15, -8.74228e-08, -1, 1, 0, -2.5)
+
+[node name="checkpoint_detector" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="checkpoint_detector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.480568, -3.53813)
+shape = SubResource("BoxShape3D_17lnq")
+
+[connection signal="area_entered" from="checkpoint_detector" to="." method="_on_checkpoint_detector_area_entered"]
