@@ -65,7 +65,7 @@ extends CharacterBody3D
 @export var ground_roll_max_speed: float = 2
 
 @export var ground_friction: float = 1.5
-@export var ground_max_speed: float = 80
+@export var ground_max_speed: float = 100
 @export var ground_gravity: float = 14
 @export var ground_auto_pitch_speed: float = 8
 @export var ground_auto_roll_speed: float = 8
@@ -82,9 +82,24 @@ var rotate_input: Vector3  # tracks current input for rotation (pitch, roll, yaw
 var is_stalling: bool  # tracks whether ship is currently stalling
 var grounded: bool  # tracks current grounded state (updated in func is_grounded())
 
-var current_yaw_speed: float
-var current_roll_speed: float
-var current_pitch_speed: float
+var current_yaw_speed:float
+var current_roll_speed:float
+var current_pitch_speed:float
+
+var current_checkpoint:int = 0
+
+var lap_checkpoint_times: Array = []  # list of lists, each contains checkpoint times starting at first checkpoint
+var current_lap_time: float = 0  # tracks current time, reset to 0 when reaching finish
+var current_lap_idx: int = 0
+
+@onready var checkpoint_velocity: Vector3 = velocity
+@onready var checkpoint_position: Vector3 = position
+@onready var checkpoint_rotation: Vector3 = rotation
+var checkpoint_speed:float = 0
+var checkpoint_yaw_speed:float = 0
+var checkpoint_roll_speed:float = 0
+var checkpoint_pitch_speed:float = 0
+var checkpoint_lap_time:float = 0
 
 
 # returns raycast distance to collider, this should not be called if raycast is not colliding
@@ -294,6 +309,12 @@ func move_ship(delta: float) -> void:
 	
 	throttle = Input.get_axis("brake", "gas")
 
+	# handle reset to last checkpoint
+	# TODO: don't allow reset to Vector3.ZEROs (start)
+	if Input.is_action_just_released("reset"):
+		load_checkpoint_data()
+		move_and_slide()
+
 	if is_grounded():
 		move_ship_grounded(delta)
 	else:
@@ -301,13 +322,80 @@ func move_ship(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	HUD.debug("forward", -basis.z)
-
-	HUD.debug("bumper_front_left", bumper_front_left.is_colliding())
 
 	# TODO: move to global/menu
 	if Input.is_action_just_released("ui_cancel"): get_tree().quit()
+
+	# update lap timer
+	current_lap_time += delta
+	HUD.display_time(current_lap_time)
+
 	move_ship(delta)
+
+
+func load_checkpoint_data() -> void:
+	current_speed = checkpoint_speed
+	current_yaw_speed = checkpoint_yaw_speed
+	current_pitch_speed = checkpoint_pitch_speed
+	position = checkpoint_position
+	velocity = checkpoint_velocity
+	rotation = checkpoint_rotation
+	current_lap_time = checkpoint_lap_time
+
+
+func save_checkpoint_data() -> void:
+	checkpoint_speed = current_speed
+	checkpoint_yaw_speed = current_yaw_speed
+	checkpoint_pitch_speed = current_pitch_speed
+	checkpoint_position = position
+	checkpoint_velocity = velocity
+	checkpoint_rotation = rotation
+	checkpoint_lap_time = current_lap_time
+
+
+func _on_checkpoint_detector_area_entered(area: Variant) -> void:
+	if not area.is_in_group("checkpoint"):
+		return
+
+	if area.checkpoint_number == current_checkpoint:
+		return
+	
+	# don't process if current_checkpoint is 0 and hitting finish (needs to be at least 1 non-finish checkpoint before finish)
+	if area.finish and current_checkpoint == 0:
+		return
+	
+	# checkpoints start at 1, player checkpoint starts at 0
+
+	# finish and correct checkpoint reached
+	if area.finish and area.checkpoint_number == current_checkpoint + 1:
+		lap_checkpoint_times[current_lap_idx].append(current_lap_time)
+		current_checkpoint = 0
+		current_lap_idx += 1
+		HUD.update_checkpoint(lap_checkpoint_times, current_checkpoint, true)
+		save_checkpoint_data()
+
+	# correct checkpoint reached
+	elif area.checkpoint_number == current_checkpoint + 1:
+		
+		if area.checkpoint_number == 1:
+			lap_checkpoint_times.append([])
+			current_lap_time = 0
+		lap_checkpoint_times[current_lap_idx].append(current_lap_time)
+
+		current_checkpoint += 1
+		HUD.update_checkpoint(lap_checkpoint_times, current_checkpoint)
+		save_checkpoint_data()
+
+	# skipped a checkpoint
+	else:
+		HUD.debug("CHECKPOINT_SKIPPED")
+	
+	HUD.debug("current_checkpoint", current_checkpoint)
+	# HUD.debug("collided_checkpoint", area.get_checkpoint_number())
+	HUD.debug("collided_checkpoint", area.checkpoint_number)
+	HUD.debug("finish", area.finish)
+
+	HUD.debug("lap time", lap_checkpoint_times)
 
 
 func throttle_sound_adjust(throttle: float) -> void:
