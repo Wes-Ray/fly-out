@@ -12,24 +12,38 @@ extends CharacterBody3D
 @onready var cast_rear: = $cast_rear
 @onready var cast_left: = $cast_left
 @onready var cast_right: = $cast_right
+# Audio players
+@onready var death_sound_player: = %DeathSoundPlayer
+@onready var finish_sound_player: = %FinishSoundPlayer
+@onready var checkpoint_sound_player: = %CheckpointSoundPlayer
+@onready var right_bump_sound_player: = %RightBumpSoundPlayer
+@onready var left_bump_sound_player: = %LeftBumpSoundPlayer
+@onready var wind_sound_player: = %WindSoundPlayer
+@onready var engine_a_sound_player: = %EngineASoundPlayer
+@onready var engine_b_sound_player: = %EngineBSoundPlayer
+@onready var rocket_sound_player: = %RocketSoundPlayer
 
-# TODO: clean up unused variables
+@onready var bumper_front_left: = $bumper_front_left
+@onready var bumper_front_right: = $bumper_front_right
+
 @export var air_acceleration: float = 10
 @export var air_decceleration: float = 10
 
-@export var air_yaw_acceleration: float = 1
+@export var air_yaw_acceleration: float = 1.5
 @export var air_yaw_decceleration: float = 4
-@export var air_yaw_max_speed: float = 1.5
+@export var air_yaw_max_speed: float = 2
 
 @export var air_roll_acceleration: float = 3
 @export var air_roll_decceleration: float = 6
 @export var air_roll_max_speed: float = 4
+@export var air_roll_decay_speed: float = 40
 
 @export var air_pitch_acceleration: float = 3
 @export var air_pitch_decceleration: float = 6
 @export var air_pitch_max_speed: float = 4
+@export var air_pitch_decay_speed: float = 3
 
-@export var air_friction: float = 4
+@export var air_friction: float = 1
 @export var air_max_speed: float = 70
 @export var air_min_speed: float = 10
 @export var air_gravity: float = 14
@@ -38,38 +52,39 @@ extends CharacterBody3D
 
 @export var ground_acceleration: float = 8
 
-@export var ground_yaw_acceleration: float = 6 
-@export var ground_yaw_decceleration: float = 4
-@export var ground_yaw_max_speed: float = 2
+@export var ground_yaw_acceleration: float = 3
+@export var ground_yaw_decceleration: float = 6
+@export var ground_yaw_max_speed: float = 1.2
 
 @export var ground_pitch_acceleration: float = 6 
 @export var ground_pitch_decceleration: float = 4
 @export var ground_pitch_max_speed: float = 2
-@export var air_pitch_decay_speed: float = 3
 
 @export var ground_roll_acceleration: float = 6 
 @export var ground_roll_decceleration: float = 4
 @export var ground_roll_max_speed: float = 2
 
-@export var ground_friction: float = 5000
-@export var ground_max_speed: float = 150
+@export var ground_friction: float = 1.5
+@export var ground_max_speed: float = 80
 @export var ground_gravity: float = 14
 @export var ground_auto_pitch_speed: float = 8
 @export var ground_auto_roll_speed: float = 8
 @export var ground_suction_angle_offset: float = deg_to_rad(-2)
 @export var ground_strafe_angle_offset: float = deg_to_rad(10)
 
+@export var ground_bumper_bounce_speed: float = 1.5
+@export var ground_bumper_friction: float = 100
+@export var ground_bumper_min_speed: float = 10
+
 var throttle: float  # current throttle input
 var current_speed: float  # tracks current acceleration in the direction the ship is looking
 var rotate_input: Vector3  # tracks current input for rotation (pitch, roll, yaw)
 var is_stalling: bool  # tracks whether ship is currently stalling
-var grounded: bool
+var grounded: bool  # tracks current grounded state (updated in func is_grounded())
 
 var current_yaw_speed: float
 var current_roll_speed: float
 var current_pitch_speed: float
-
-var velocity_vertical_component: float  # tracks vertical component for gravity purposes
 
 
 # returns raycast distance to collider, this should not be called if raycast is not colliding
@@ -98,6 +113,9 @@ func update_rotation_speed(	current_rotation_speed: float,
 
 
 func move_ship_grounded(delta: float) -> void:
+
+	throttle_sound_adjust(throttle)
+
 	var forward: = -basis.z
 	var tilted_basis: = basis.rotated(basis.x, ground_suction_angle_offset)
 
@@ -107,12 +125,8 @@ func move_ship_grounded(delta: float) -> void:
 	rotate(basis.y.normalized(), current_yaw_speed * delta)
 	HUD.debug("current_yaw_speed", current_yaw_speed)
 
-	
-
-
 	# current_roll_speed = update_rotation_speed(current_roll_speed, rotate_input.z, ground_roll_acceleration, ground_roll_decceleration, ground_roll_max_speed, delta)
 	# HUD.debug("current_roll_speed", current_roll_speed)
-
 
 	HUD.debug("throttle", throttle)
 	HUD.debug("current_speed", current_speed)
@@ -148,24 +162,19 @@ func move_ship_grounded(delta: float) -> void:
 
 		# add strafe movement by re-orienting the tilted basis based on input instead of roll angle
 		if not is_zero_approx(rotate_input.z):
-			HUD.debug("test", "ON")
 			tilted_basis = tilted_basis.rotated(tilted_basis.y, rotate_input.z * ground_strafe_angle_offset)
-		else:
-			HUD.debug("test", "off")
 	
-	# debug movement
-	# velocity.y += rotate_input.x * delta * 10
-	# velocity += forward * throttle * delta * 10
-
-	# TODO: handle colliding with walls, likely have to reset current_speed to velocity.length()
-	# probably better to just do a raycast bumper on the corners and adjust from there
-
-	if Input.is_action_pressed("debug1"):
-		velocity_vertical_component -= ground_gravity * delta
-	if Input.is_action_pressed("debug2"):
-		velocity_vertical_component += ground_gravity * delta
-	
-	HUD.debug("vert_component", velocity_vertical_component)
+	# rotate if hitting wall
+	if bumper_front_left.is_colliding():
+		rotate(basis.y.normalized(), -ground_bumper_bounce_speed * delta)
+		if current_speed > ground_bumper_min_speed:
+			current_speed -= ground_bumper_friction * delta
+		left_bump_sound_player.bump()
+	if bumper_front_right.is_colliding():
+		rotate(basis.y.normalized(), ground_bumper_bounce_speed * delta)
+		if current_speed > ground_bumper_min_speed:
+			current_speed -= ground_bumper_friction * delta
+		right_bump_sound_player.bump()
 
 	# apply gravity to current speed
 	var angle_to_horizon: float
@@ -175,15 +184,23 @@ func move_ship_grounded(delta: float) -> void:
 	HUD.debug("angle_to_horizon", angle_to_horizon)
 	current_speed += -angle_to_horizon * ground_gravity * delta
 
-	# velocity = forward * current_speed
-	var tilted_forward: = -tilted_basis.z
-	velocity = tilted_forward * current_speed
-	HUD.debug("tilted", tilted_forward)
+	if current_speed > 0:
+		var tilted_forward: = -tilted_basis.z
+		velocity = tilted_forward * current_speed
+	else:
+		velocity = forward * current_speed
+
+	# apply friction
+	current_speed = move_toward(current_speed, 0, ground_friction * delta)
+	
+	speed_sound_adjust(current_speed)
 
 	move_and_slide()
 
 
 func move_ship_flying(delta: float) -> void:
+
+	throttle_sound_adjust(0)
 
 	# TODO: should be positive basis (refactor)
 	var forward: = -basis.z
@@ -194,6 +211,10 @@ func move_ship_flying(delta: float) -> void:
 	current_pitch_speed = update_rotation_speed(current_pitch_speed, rotate_input.x, air_pitch_acceleration, air_pitch_decceleration, air_pitch_max_speed, delta)
 	if is_zero_approx(rotate_input.x):
 		current_pitch_speed -= air_pitch_decay_speed * delta  # add decay
+	if is_zero_approx(rotate_input.z):
+		var rotation_correct_strength:float = clamp(-rotation.z, -0.2, 0.2)
+		current_roll_speed += rotation_correct_strength * air_roll_decay_speed * delta  # add decay
+
 	rotate(basis.y.normalized(), current_yaw_speed * delta)
 	rotate(basis.z.normalized(), current_roll_speed * delta)
 	rotate(basis.x.normalized(), current_pitch_speed * delta)
@@ -213,9 +234,6 @@ func move_ship_flying(delta: float) -> void:
 	if throttle < 0 and current_speed > air_min_speed:
 		current_speed += throttle * air_decceleration * delta
 	
-	# Affect current speed based on angle to horizon, current speed, and gravity.
-	# Going over a min lift speed should allow level flight when pointing straight at the horizon
-
 	# calculate angle to horizon
 	# straight down is -90* or -tau/4, straight up is +, aligned with horizon is 0
 	var angle_to_horizon: float
@@ -231,9 +249,9 @@ func move_ship_flying(delta: float) -> void:
 
 	if current_speed < -1:
 		is_stalling = true
-	if (is_stalling and 
+	if (	is_stalling and 
 			velocity.length() > air_min_speed and 
-			forward.angle_to(Vector3.DOWN) < air_stall_recovery_angle):
+			forward.angle_to(Vector3.DOWN) < air_stall_recovery_angle ):
 		is_stalling = false
 		current_speed = velocity.length()
 
@@ -242,6 +260,11 @@ func move_ship_flying(delta: float) -> void:
 		velocity.y += -air_gravity * delta
 	else:
 		velocity = forward * current_speed
+	
+	# apply friction
+	current_speed = move_toward(current_speed, 0, air_friction * delta)
+
+	speed_sound_adjust(current_speed)
 	
 	HUD.debug("is_stalling", is_stalling)
 	move_and_slide()
@@ -280,6 +303,31 @@ func move_ship(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	HUD.debug("forward", -basis.z)
 
+	HUD.debug("bumper_front_left", bumper_front_left.is_colliding())
+
 	# TODO: move to global/menu
 	if Input.is_action_just_released("ui_cancel"): get_tree().quit()
 	move_ship(delta)
+
+
+func throttle_sound_adjust(throttle: float) -> void:
+	# scaling formula:
+	# OldRange = (OldMax - OldMin)  
+	# NewRange = (NewMax - NewMin)  
+	# NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
+	throttle = clampf(throttle, 0, 1)
+
+	var pitch : float = (throttle * 1.5) + 0.5
+	engine_a_sound_player.pitch_scale = lerp(engine_a_sound_player.pitch_scale, pitch, 0.2)
+	engine_b_sound_player.pitch_scale = lerp(engine_b_sound_player.pitch_scale, pitch, 0.2)
+	rocket_sound_player.pitch_scale = lerp(rocket_sound_player.pitch_scale, pitch, 0.2)
+
+	var volume : float = ((throttle) * (-12 - -16)) - 16
+	rocket_sound_player.max_db = lerp(rocket_sound_player.max_db, volume, 0.2)
+	print(throttle)
+
+
+func speed_sound_adjust(speed: float) -> void:
+	speed = clampf(speed, 0, 150)
+	var volume : float = (((speed) * (-9 - -24)) / 150)- 24
+	wind_sound_player.max_db = volume
