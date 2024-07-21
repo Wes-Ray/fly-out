@@ -306,6 +306,10 @@ func move_ship(delta: float) -> void:
 
 	rotate_input.y = Input.get_axis("yaw_right", "yaw_left")
 	rotate_input.x = Input.get_axis("pitch_down", "pitch_up")
+
+	if not Options.inverted:
+		rotate_input.x = -rotate_input.x
+
 	rotate_input.z = Input.get_axis("roll_right", "roll_left")
 	
 	throttle = Input.get_axis("brake", "gas")

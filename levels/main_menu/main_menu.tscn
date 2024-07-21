@@ -19,7 +19,6 @@ script = ExtResource("1_3nomf")
 stream = ExtResource("1_eryre")
 volume_db = -10.07
 autoplay = true
-bus = &"Music"
 
 [node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
 layout_mode = 0
