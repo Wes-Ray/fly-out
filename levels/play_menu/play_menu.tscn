@@ -36,20 +36,21 @@ mouse_filter = 2
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Tutorial" type="Button" parent="PlayMenu/MarginContainer/VBoxContainer"]
+[node name="Level 1" type="Button" parent="PlayMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = SubResource("Theme_m6s7o")
-text = "Tutorial"
+text = "Level 1"
 
-[node name="Play" type="Button" parent="PlayMenu/MarginContainer/VBoxContainer"]
+[node name="Level 2" type="Button" parent="PlayMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = SubResource("Theme_m6s7o")
-text = "Play"
+text = "Level 2
+"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="PlayMenu"]
 stream = ExtResource("2_kpteh")
 volume_db = -10.07
 autoplay = true
 
-[connection signal="pressed" from="PlayMenu/MarginContainer/VBoxContainer/Tutorial" to="PlayMenu" method="_on_tutorial_pressed"]
-[connection signal="pressed" from="PlayMenu/MarginContainer/VBoxContainer/Play" to="PlayMenu" method="_on_play_pressed"]
+[connection signal="pressed" from="PlayMenu/MarginContainer/VBoxContainer/Level 1" to="PlayMenu" method="_on_tutorial_pressed"]
+[connection signal="pressed" from="PlayMenu/MarginContainer/VBoxContainer/Level 2" to="PlayMenu" method="_on_play_pressed"]
