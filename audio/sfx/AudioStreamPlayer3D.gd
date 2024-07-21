@@ -27,3 +27,9 @@ func _on_button_idle_pressed() -> void:
 
 func _on_button_rocket_pressed() -> void:
 	playing = !playing
+
+func _on_button_bump_l_pressed() -> void:
+	playing = !playing
+
+func _on_button_bump_r_pressed() -> void:
+	playing = !playing
