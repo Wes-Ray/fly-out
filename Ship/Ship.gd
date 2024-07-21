@@ -14,6 +14,7 @@ extends CharacterBody3D
 @onready var cast_right: = $cast_right
 # Audio players
 @onready var death_sound_player: = %DeathSoundPlayer
+@onready var finish_sound_player: = %FinishSoundPlayer
 @onready var checkpoint_sound_player: = %CheckpointSoundPlayer
 @onready var right_bump_sound_player: = %RightBumpSoundPlayer
 @onready var left_bump_sound_player: = %LeftBumpSoundPlayer

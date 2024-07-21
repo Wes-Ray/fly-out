@@ -1,12 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://b3mi6w6egox4h"]
+[gd_scene load_steps=15 format=3 uid="uid://b3mi6w6egox4h"]
 
 [ext_resource type="Script" path="res://Ship/Ship.gd" id="1_7kbbf"]
 [ext_resource type="PackedScene" uid="uid://bvx28caw0wlv2" path="res://ship_art/ship_guest.blend" id="2_f7iji"]
 [ext_resource type="AudioStream" uid="uid://dy3wtt4ld1iki" path="res://audio/music/racetrack_theme.wav" id="2_ywl4q"]
 [ext_resource type="AudioStream" uid="uid://ge5n5rk6jgwg" path="res://audio/sfx/bumps/death_explosion.wav" id="3_m35jc"]
 [ext_resource type="AudioStream" uid="uid://bk2mlocmcm3ad" path="res://audio/sfx/bumps/bump_1.wav" id="3_sdcqf"]
+[ext_resource type="AudioStream" uid="uid://cnxyvru8xxyx5" path="res://audio/sfx/voice_acting/checkpoint_1.wav" id="4_laoiy"]
 [ext_resource type="Script" path="res://audio/sfx/voice_acting/checkpoint_sound_player.gd" id="4_mov47"]
 [ext_resource type="Script" path="res://audio/sfx/bumps/bump_sound.gd" id="4_te2j7"]
+[ext_resource type="AudioStream" uid="uid://dgerte24573fk" path="res://audio/sfx/voice_acting/finish.wav" id="4_ww1ry"]
 [ext_resource type="AudioStream" uid="uid://38fbnpp684xf" path="res://audio/sfx/engine/wind_noise.wav" id="7_t5mdn"]
 [ext_resource type="AudioStream" uid="uid://gh2b756mpqbx" path="res://audio/sfx/engine/engine_a.wav" id="8_je4vn"]
 [ext_resource type="AudioStream" uid="uid://wpkcrl16uujh" path="res://audio/sfx/engine/engine_b.wav" id="9_x8tj2"]
@@ -30,9 +32,17 @@ autoplay = true
 [node name="DeathSoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
 unique_name_in_owner = true
 stream = ExtResource("3_m35jc")
+max_db = -2.0
+
+[node name="FinishSoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
+unique_name_in_owner = true
+stream = ExtResource("4_ww1ry")
+max_db = 1.0
 
 [node name="CheckpointSoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
 unique_name_in_owner = true
+stream = ExtResource("4_laoiy")
+max_db = -1.0
 script = ExtResource("4_mov47")
 
 [node name="RightBumpSoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
