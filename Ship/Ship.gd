@@ -42,9 +42,9 @@ extends CharacterBody3D
 
 @export var ground_acceleration: float = 8
 
-@export var ground_yaw_acceleration: float = 6 
-@export var ground_yaw_decceleration: float = 4
-@export var ground_yaw_max_speed: float = 2
+@export var ground_yaw_acceleration: float = 3
+@export var ground_yaw_decceleration: float = 6
+@export var ground_yaw_max_speed: float = 1.2
 
 @export var ground_pitch_acceleration: float = 6 
 @export var ground_pitch_decceleration: float = 4
