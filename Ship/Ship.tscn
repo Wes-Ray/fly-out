@@ -29,21 +29,25 @@ fov = 95.8
 [node name="MusicPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
 unique_name_in_owner = true
 stream = ExtResource("2_ywl4q")
+bus = &"Music"
 
 [node name="DeathSoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
 unique_name_in_owner = true
 stream = ExtResource("3_m35jc")
 max_db = -2.0
+bus = &"SFX"
 
 [node name="FinishSoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
 unique_name_in_owner = true
 stream = ExtResource("4_ww1ry")
 max_db = 1.0
+bus = &"SFX"
 
 [node name="CheckpointSoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
 unique_name_in_owner = true
 stream = ExtResource("4_laoiy")
 max_db = -1.0
+bus = &"SFX"
 script = ExtResource("4_mov47")
 
 [node name="RightBumpSoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
@@ -51,32 +55,37 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.989629, -0.143648, 0, 0.143648, 0.989629, 1.36838, -0.183207, 0.0717525)
 stream = ExtResource("3_sdcqf")
 max_db = 0.5
+bus = &"SFX"
 script = ExtResource("4_te2j7")
 
 [node name="LeftBumpSoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.989629, -0.143648, 0, 0.143648, 0.989629, -1.49613, -0.183207, 0.0717525)
 max_db = 0.5
+bus = &"SFX"
 script = ExtResource("4_te2j7")
 
 [node name="WindSoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
 unique_name_in_owner = true
 stream = ExtResource("7_t5mdn")
 autoplay = true
+bus = &"SFX"
 
 [node name="EngineASoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20872, 1.43793)
 stream = ExtResource("8_je4vn")
-max_db = -1.5
+max_db = -2.0
 autoplay = true
+bus = &"SFX"
 
 [node name="EngineBSoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.206448, 1.42227)
 stream = ExtResource("9_x8tj2")
-max_db = -1.0
+max_db = -2.5
 autoplay = true
+bus = &"SFX"
 
 [node name="RocketSoundPlayer" type="AudioStreamPlayer3D" parent="Camera3D"]
 unique_name_in_owner = true
@@ -84,6 +93,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.211028, 1.45383)
 stream = ExtResource("10_725a4")
 max_db = -14.0
 autoplay = true
+bus = &"SFX"
 
 [node name="ship_guest" parent="." instance=ExtResource("2_f7iji")]
 transform = Transform3D(-0.4, 0, 6.03983e-08, 0, 0.4, 0, -6.03983e-08, 0, -0.4, 0, 0.249079, 0)
