@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://cx12ws1kklag3"]
+
+[ext_resource type="Script" path="res://levels/main_menu/main_menu.gd" id="1_3nomf"]
+[ext_resource type="AudioStream" uid="uid://6gqlgt6s2qqx" path="res://audio/music/menu_theme.wav" id="1_eryre"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3nomf")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_eryre")
+volume_db = -10.07
+autoplay = true
+bus = &"Music"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 722.0
+offset_top = 547.0
+offset_right = 852.0
+offset_bottom = 648.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Play
+"
+
+[node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="Exit" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit to Desktop"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 109.0
+offset_top = 52.0
+offset_right = 174.0
+offset_bottom = 75.0
+scale = Vector2(20.16, 17.32)
+text = "FLY OUT
+"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
