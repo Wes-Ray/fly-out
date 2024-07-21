@@ -329,7 +329,7 @@ func move_ship(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 
 	# TODO: move to global/menu
-	if Input.is_action_just_released("ui_cancel"): get_tree().quit()
+	if Input.is_action_just_released("escape"): get_tree().change_scene_to_file("res://levels/main_menu/main_menu.tscn")
 
 	# update lap timer
 	current_lap_time += delta
